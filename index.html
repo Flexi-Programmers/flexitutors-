@@ -4,17 +4,22 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Flexi Tutors</title>
+
 <style>
+  /* Base */
+  :root { --green:#3cb371; --green-dark:#2e7d32; --blue:#007bff; }
+  * { box-sizing: border-box; }
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f8ff;
     margin: 0;
-    padding: 0;
     color: #333;
   }
+
+  /* Header / Nav */
   header {
-    background: #3cb371;
-    color: white;
+    background: var(--green);
+    color: #fff;
     padding: 20px;
     text-align: center;
     position: relative;
@@ -24,15 +29,14 @@
     display: flex;
     justify-content: center;
     gap: 15px;
+    flex-wrap: wrap;
   }
   nav a {
-    color: white;
+    color: #fff;
     text-decoration: none;
     font-weight: 600;
   }
-  nav a:hover {
-    text-decoration: underline;
-  }
+  nav a:hover { text-decoration: underline; }
   .menu-icon {
     position: absolute;
     right: 20px;
@@ -45,35 +49,48 @@
     nav {
       display: none;
       flex-direction: column;
-      background-color: #3cb371;
+      background-color: var(--green);
       position: absolute;
       top: 60px;
       right: 0;
-      width: 200px;
+      width: 220px;
       padding: 10px;
     }
     nav a {
       display: block;
       padding: 10px;
-      border-bottom: 1px solid #2e7d32;
+      border-bottom: 1px solid var(--green-dark);
     }
-    .menu-icon {
-      display: block;
-    }
+    .menu-icon { display: block; }
   }
+
+  /* Hero */
   .hero {
     background: #e0f2f1;
     padding: 50px 20px;
     text-align: center;
   }
   .hero h1 {
-    margin-bottom: 10px;
+    margin: 0 0 10px;
     font-size: 2.5em;
-    color: #2e7d32;
+    color: var(--green-dark);
   }
-  .hero p {
-    font-size: 1.2em;
+  .hero p { font-size: 1.2em; }
+  .section { padding: 24px 20px; max-width: 1000px; margin: 0 auto; }
+
+  /* Buttons / links used as buttons */
+  .button, .btn {
+    display: inline-block;
+    background-color: var(--green);
+    color: #fff !important;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
   }
+  .button:hover, .btn:hover { background: var(--green-dark); }
+
+  /* Services */
   .services {
     display: flex;
     flex-wrap: wrap;
@@ -82,7 +99,7 @@
     gap: 20px;
   }
   .service-item {
-    background: white;
+    background: #fff;
     border-radius: 10px;
     box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     width: 280px;
@@ -90,21 +107,23 @@
     text-align: center;
   }
   .service-item h3, .service-item h2 {
-    color: #3cb371;
+    color: var(--green);
     margin-bottom: 10px;
   }
+
+  /* FAQ */
   .faq-section {
     max-width: 800px;
     margin: 40px auto;
     padding: 0 20px;
   }
   .faq-section h2 {
-    color: #2e7d32;
+    color: var(--green-dark);
     margin-bottom: 20px;
     text-align: center;
   }
   .faq {
-    background: white;
+    background: #fff;
     border-radius: 10px;
     margin-bottom: 15px;
     padding: 15px 20px;
@@ -124,16 +143,11 @@
     font-size: 1.5em;
     line-height: 1;
   }
-  .faq.open h4::after {
-    content: '-';
-  }
-  .faq p {
-    display: none;
-    margin-top: 10px;
-  }
-  .faq.open p {
-    display: block;
-  }
+  .faq.open h4::after { content: '-'; }
+  .faq p { display: none; margin-top: 10px; }
+  .faq.open p { display: block; }
+
+  /* Contact */
   .contact-section {
     background: #e0f2f1;
     padding: 40px 20px;
@@ -142,28 +156,22 @@
     border-radius: 10px;
   }
   .contact-section h2 {
-    color: #2e7d32;
+    color: var(--green-dark);
     text-align: center;
     margin-bottom: 25px;
   }
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  label {
-    margin-bottom: 5px;
-    font-weight: 600;
-  }
+  form { display: flex; flex-direction: column; }
+  label { margin-bottom: 5px; font-weight: 600; }
   input, textarea {
     padding: 10px;
     margin-bottom: 20px;
-    border: 2px solid #3cb371;
+    border: 2px solid var(--green);
     border-radius: 5px;
     font-size: 1em;
   }
   button {
-    background-color: #3cb371;
-    color: white;
+    background-color: var(--green);
+    color: #fff;
     border: none;
     padding: 15px;
     font-size: 1.1em;
@@ -171,16 +179,18 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
-  button:hover {
-    background-color: #2e7d32;
-  }
+  button:hover { background-color: var(--green-dark); }
+
+  /* Footer */
   footer {
-    background: #3cb371;
+    background: var(--green);
     color: white;
     text-align: center;
     padding: 15px 0;
     margin-top: 40px;
   }
+
+  /* Floating buttons */
   .whatsapp-float {
     position: fixed;
     bottom: 20px;
@@ -197,7 +207,7 @@
     position: fixed;
     bottom: 80px;
     right: 20px;
-    background-color: #007bff;
+    background-color: var(--blue);
     color: white;
     padding: 10px 15px;
     border-radius: 10px;
@@ -205,6 +215,7 @@
     cursor: pointer;
     z-index: 1000;
   }
+
   /* Education updates */
   .education-updates {
     background: #f9f9f9;
@@ -214,33 +225,66 @@
     border-radius: 10px;
   }
   .education-updates h2 {
-    color: #2e7d32;
+    color: var(--green-dark);
     margin-bottom: 20px;
     font-size: 2em;
   }
-  #feed {
-    max-width: 700px;
-    margin: 0 auto;
-    text-align: left;
-  }
-  #feed .item {
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-  }
+  #feed { max-width: 700px; margin: 0 auto; text-align: left; }
+  #feed .item { border-bottom: 1px solid #ddd; padding: 15px 0; }
   #feed .title {
     font-weight: bold;
     font-size: 1.1em;
-    color: #007bff;
+    color: var(--blue);
     text-decoration: none;
   }
-  #feed .title:hover {
-    text-decoration: underline;
+  #feed .title:hover { text-decoration: underline; }
+  #feed .pubDate { font-size: 0.9em; color: gray; margin-top: 5px; }
+
+  /* Auth0 Modal Styles */
+  .auth-modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease-in-out;
   }
-  #feed .pubDate {
-    font-size: 0.9em;
-    color: gray;
-    margin-top: 5px;
+  .auth-modal-content {
+    background: #4ade80;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s ease;
   }
+  .auth-modal-content h2 { color: white; margin-bottom: 20px; }
+  .auth-modal-content button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    margin: 8px 0;
+    font-weight: bold;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.3s ease;
+  }
+.auth-modal-content button {
+  background: #16a34a; /* green background */
+  color: #fff;         /* white text */
+  border: none;        /* optional: remove default border */
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+  .auth-modal-content button:hover { background: #16a34a; color: #fff; }
+  @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+  @keyframes slideUp { from {transform: translateY(20px);} to {transform: translateY(0);} }
 </style>
 </head>
 <body>
@@ -248,8 +292,8 @@
 <header>
   <h1>Flexi Tutors</h1>
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
-  <nav id="mainNav">
-    <a href="">Login or signup</a>
+  <nav id="mainNav" role="navigation" aria-label="Main">
+    <a href="#" id="menuLogin" onclick="openAuthModal();return false;">Login or signup</a>
     <a href="#about">About Us</a>
     <a href="#services">Services</a>
     <a href="#cbt">CBT Simulator</a>
@@ -260,11 +304,11 @@
 </header>
 
 <section class="hero" id="about">
-  <h1>Welcome to Flexi Tutors</h1>
+  <h1 id="heroText">Welcome to Flexi Tutors</h1>
   <p>Your trusted partner for exam tips and academic success!</p>
   <div class="section">
-    <form>
-      <input type="text" placeholder="Enter PIN">
+    <form onsubmit="event.preventDefault(); alert('PIN loader is a placeholder.');">
+      <input type="text" placeholder="Enter PIN" aria-label="Enter PIN">
       <button type="submit">Load PIN</button>
     </form>
   </div>
@@ -274,7 +318,7 @@
   <div class="service-item">
     <h2>Result Checker</h2>
     <p>Get your WAEC and NECO result checker here</p>
-    <a class="button" href="https://wisdomuko2008.github.io/Jambrunz/">Check Results</a>
+    <a class="button" href="https://wisdomuko2008.github.io/Jambrunz/" target="_blank" rel="noopener">Check Results</a>
   </div>
   <div class="service-item">
     <h3>WAEC Exam Tips</h3>
@@ -298,20 +342,20 @@
   <h2 style="text-align:center;color:#2e7d32;">CBT Simulator</h2>
   <p style="text-align:center;">
     Practice with our JAMB/WAEC CBT simulation tools.
-    <a href="https://myschool.ng/classroom/exam/jamb/">JAMB CBT Practice</a>
+    <a href="https://myschool.ng/classroom/exam/jamb/" target="_blank" rel="noopener">JAMB CBT Practice</a>
   </p>
 </section>
 
 <section id="WhatsApp-us" style="text-align:center;margin:30px 0;">
   <h2 style="color:#2e7d32;">Linked Resource</h2>
-  <p>Click below to Message us on whatsapp </p>
-  <a href="https://wa.me/2347051768946?text=Hi%20I%E2%80%99m%20interested%20in%20JAMB%202026%20preparation.%20Can%20you%20assist%20me?" target="_blank">Chat on WhatsApp</a>
+  <p>Click below to message us on WhatsApp</p>
+  <a class="btn" href="https://wa.me/2347051768946?text=Hi%20I%E2%80%99m%20interested%20in%20JAMB%202026%20preparation.%20Can%20you%20assist%20me?" target="_blank" rel="noopener">Chat on WhatsApp</a>
 </section>
 
 <div class="section">
-  <h2>FlexiTV Hub</h2>
+  <h2>📚 FlexiTV Hub</h2>
   <p>Watch FlexiTV to gain tips for your exam</p>
-  <a class="button" href="https://wisdomuko2008.github.io/Videopage/">Watch FlexiTV Hub</a>
+  <a class="button" href="https://wisdomuko2008.github.io/Videopage/" target="_blank" rel="noopener">Watch FlexiTV Hub</a>
 </div>
 
 <section class="faq-section" id="faq">
@@ -338,31 +382,26 @@
   <h2 style="text-align: center; font-size: 2rem; margin-bottom: 1rem;">Our Location</h2>
   <iframe
     src="https://www.google.com/maps?q=6+Awofeso+Street,+Ladi-Lak,+off+Kajola+Bus+stop,+Bariga,+Lagos,+Nigeria&output=embed"
-    width="100%"
-    height="300"
-    style="border:0; border-radius: 10px;"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-    title="Our Location">
+    width="100%" height="300" style="border:0; border-radius: 10px;"
+    allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Our Location">
   </iframe>
 </section>
 
 <div class="section">
   <h2>📚 Study Materials</h2>
   <p>Download free eBooks, syllabuses, and past questions to guide your JAMB and WAEC Preparation</p>
-  <a class="button" href="https://t.me/+1y7-2wFzMX4wMmNk">Download Materials</a>
+  <a class="button" href="https://t.me/+1y7-2wFzMX4wMmNk" target="_blank" rel="noopener">Download Materials</a>
 </div>
 
 <div class="section" id="download-App">
   <h2>Mobile app</h2>
   <p>Get our mobile app for Android. iOS version coming soon</p>
-  <a class="button" href="https://www.dropbox.com/scl/fi/mmavwavmyg4kuc3uzy209/_Flexi_Tutors_19009924.apk?rlkey=y2rouc1j8t9xa5rz8t1lre0e2&st=ntnd6hny&dl=0">Download App</a>
+  <a class="button" href="https://www.dropbox.com/scl/fi/mmavwavmyg4kuc3uzy209/_Flexi_Tutors_19009924.apk?rlkey=y2rouc1j8t9xa5rz8t1lre0e2&st=ntnd6hny&dl=0" target="_blank" rel="noopener">Download App</a>
 </div>
 
 <section id="education-updates" class="education-updates">
   <h2>📢 Latest Education Updates</h2>
-  <div id="feed"></div>
+  <div id="feed" aria-live="polite"></div>
 </section>
 
 <section class="contact-section" id="contact">
@@ -389,17 +428,31 @@
 
 <a class="whatsapp-float"
    href="https://wa.me/2349034159839?text=Hi%20I%E2%80%99m%20interested%20in%20exams%20Tips%20and%20preparation.%20Can%20you%20assist%20me?"
-   target="_blank" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp">
+   target="_blank" rel="noopener" title="Chat with us on WhatsApp" aria-label="Chat with us on WhatsApp">
   <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
        alt="WhatsApp" style="width:28px;height:28px;vertical-align:middle;">
 </a>
 
 <div class="ai-bot" onclick="window.open('https://wisdomuko2008.github.io/JAMBassist-', '_blank')">💬</div>
 
+<!-- Auth0 Login/Signup Modal (moved OUT of <script>) -->
+<div id="authModal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="auth-modal-content">
+    <h2 id="authTitle">Welcome</h2>
+    <button id="loginBtn" type="button">Login</button>
+    <button id="signupBtn" type="button">Sign Up</button>
+    <button id="forgotBtn" type="button">Forgot Password</button>
+    <button type="button" onclick="closeAuthModal()">Close</button>
+  </div>
+</div>
+
+<!-- Scripts -->
 <script>
+  // Mobile menu
   function toggleMenu() {
     const menu = document.getElementById('mainNav');
-    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    const isOpen = menu.style.display === 'flex';
+    menu.style.display = isOpen ? 'none' : 'flex';
   }
   window.addEventListener('resize', () => {
     const menu = document.getElementById('mainNav');
@@ -409,49 +462,114 @@
       menu.style.display = 'none';
     }
   });
-  document.querySelectorAll('.faq h4').forEach(faqHeader => {
-    faqHeader.addEventListener('click', () => {
-      const faq = faqHeader.parentElement;
-      faq.classList.toggle('open');
-    });
+
+  // FAQ toggles
+  document.querySelectorAll('.faq h4').forEach(h => {
+    h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
   });
 
+  // Education Updates (RSS -> JSON proxy)
   const feedUrl ="https://api.rss2json.com/v1/api.json?rss_url=https://rss.app/feeds/EbQFInAV6zTvXvgD.xml";
-
-
   function loadEducationUpdates() {
     fetch(feedUrl)
-      .then(response => response.json())
+      .then(r => r.json())
       .then(data => {
         const feedContainer = document.getElementById("feed");
         feedContainer.innerHTML = "";
-
         if (!data.items || data.items.length === 0) {
           feedContainer.innerText = "No updates available right now.";
           return;
         }
-
         data.items.slice(0, 5).forEach(item => {
           const itemDiv = document.createElement("div");
-          itemDiv.classList.add("item");
-
+          itemDiv.className = "item";
           itemDiv.innerHTML = `
-            <a href="${item.link}" target="_blank" class="title">${item.title}</a>
+            <a href="${item.link}" target="_blank" rel="noopener" class="title">${item.title}</a>
             <div class="pubDate">${new Date(item.pubDate).toLocaleDateString()}</div>
           `;
-
           feedContainer.appendChild(itemDiv);
         });
       })
-      .catch(error => {
+      .catch(() => {
         document.getElementById("feed").innerText = "Failed to load education updates.";
-        console.error("Error loading feed:", error);
       });
   }
-
   loadEducationUpdates();
   setInterval(loadEducationUpdates, 300000);
+
+  // Auth modal helpers
+  const authModal = document.getElementById("authModal");
+  function openAuthModal(){ authModal.style.display = "block"; }
+  function closeAuthModal(){ authModal.style.display = "none"; }
 </script>
+
+<!-- Auth0 SDK -->
+<script src="https://cdn.auth0.com/js/auth0-spa-js/2.5/auth0-spa-js.production.js"></script>
+<script>
+  // ===== Auth0 integration (fixed and merged) =====
+  let auth0Client = null;
+
+  async function configureClient() {
+    auth0Client = await createAuth0Client({
+      domain: "dev-apceo158kyfjo3o2.us.auth0.com",
+      client_id: "TufYcYZM7RCllnkHxS5GAgzOpB8gmRhI",
+      cacheLocation: "localstorage",
+      useRefreshTokens: true
+    });
+  }
+
+  window.addEventListener('load', async () => {
+    await configureClient();
+
+    // Handle redirect callback after Auth0 login/signup
+    if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+      try {
+        await auth0Client.handleRedirectCallback();
+      } catch(e) {
+        console.error("Auth0 redirect error:", e);
+      } finally {
+        // Clean the URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
+    // Session check
+    try {
+      const isAuthenticated = await auth0Client.isAuthenticated();
+      if (isAuthenticated) {
+        const user = await auth0Client.getUser();
+        const name = user && (user.name || user.nickname || user.email) || "User";
+        // Update menu & hero text
+        const menuLogin = document.getElementById("menuLogin");
+        if (menuLogin) {
+          menuLogin.outerHTML = `Welcome, ${name} | <a href="#" id="logoutLink">Logout</a>`;
+        }
+        const heroText = document.getElementById("heroText");
+        if (heroText) heroText.textContent = `Welcome back, ${name}!`;
+      }
+    } catch(e) {
+      console.warn("Auth check failed:", e);
+    }
+
+    // Hook up modal buttons
+    const loginBtn  = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
+    const forgotBtn = document.getElementById("forgotBtn");
+
+    if (loginBtn)  loginBtn.addEventListener("click", () => auth0Client.loginWithRedirect());
+    if (signupBtn) signupBtn.addEventListener("click", () => auth0Client.loginWithRedirect({ authorizationParams: { screen_hint: "signup" } }));
+    if (forgotBtn) forgotBtn.addEventListener("click", () => {
+      window.location.href = "https://dev-apceo158kyfjo3o2.us.auth0.com/u/reset-password/?client_id=TufYcYZM7RCllnkHxS5GAgzOpB8gmRhI";
+    });
+
+    // Logout (delegate)
+    document.body.addEventListener("click", async (e) => {
+      if (e.target && e.target.id === "logoutLink") {
+        e.preventDefault();
+        await auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
+      }
+    });
+  });
 </script>
 
 </body>
