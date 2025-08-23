@@ -436,16 +436,15 @@
 <div class="ai-bot" onclick="window.open('https://wisdomuko2008.github.io/JAMBassist-', '_blank')">💬</div>
 
 <!-- Auth0 Login/Signup Modal (moved OUT of <script>) -->
-<div id="authModal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+<div id="authModal" class="auth-modal">
   <div class="auth-modal-content">
-    <h2 id="authTitle">Welcome</h2>
-    <button id="loginBtn" type="button">Login</button>
-    <button id="signupBtn" type="button">Sign Up</button>
-    <button id="forgotBtn" type="button">Forgot Password</button>
-    <button type="button" onclick="closeAuthModal()">Close</button>
+    <h2>Login or Signup</h2>
+    <button id="loginBtn">Login</button>
+    <button id="signupBtn">Signup</button>
+    <button id="forgotBtn">Forgot Password?</button>
+    <button onclick="closeAuthModal()">Close</button>
   </div>
 </div>
-
 <!-- Scripts -->
 <script>
   // Mobile menu
@@ -506,7 +505,6 @@
 <!-- Auth0 SDK -->
 <script src="https://cdn.auth0.com/js/auth0-spa-js/2.5/auth0-spa-js.production.js"></script>
 <script>
-  // ===== Auth0 integration (fixed and merged) =====
   let auth0Client = null;
 
   async function configureClient() {
@@ -518,51 +516,39 @@
     });
   }
 
-  window.addEventListener('load', async () => {
+  window.addEventListener("load", async () => {
     await configureClient();
 
-    // Handle redirect callback after Auth0 login/signup
+    // Handle Auth0 redirect callback
     if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
       try {
         await auth0Client.handleRedirectCallback();
-      } catch(e) {
-        console.error("Auth0 redirect error:", e);
-      } finally {
-        // Clean the URL
-        window.history.replaceState({}, document.title, window.location.pathname);
+      } catch (err) {
+        console.error("Auth0 redirect error:", err);
       }
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // Session check
-    try {
-      const isAuthenticated = await auth0Client.isAuthenticated();
-      if (isAuthenticated) {
-        const user = await auth0Client.getUser();
-        const name = user && (user.name || user.nickname || user.email) || "User";
-        // Update menu & hero text
-        const menuLogin = document.getElementById("menuLogin");
-        if (menuLogin) {
-          menuLogin.outerHTML = `Welcome, ${name} | <a href="#" id="logoutLink">Logout</a>`;
-        }
-        const heroText = document.getElementById("heroText");
-        if (heroText) heroText.textContent = `Welcome back, ${name}!`;
-      }
-    } catch(e) {
-      console.warn("Auth check failed:", e);
+    // Check session
+    const isAuthenticated = await auth0Client.isAuthenticated();
+    if (isAuthenticated) {
+      const user = await auth0Client.getUser();
+      updateUI(user);
     }
 
-    // Hook up modal buttons
-    const loginBtn  = document.getElementById("loginBtn");
-    const signupBtn = document.getElementById("signupBtn");
-    const forgotBtn = document.getElementById("forgotBtn");
+    // Button handlers
+    document.getElementById("loginBtn").addEventListener("click", () =>
+      auth0Client.loginWithRedirect()
+    );
 
-    if (loginBtn)  loginBtn.addEventListener("click", () => auth0Client.loginWithRedirect());
-    if (signupBtn) signupBtn.addEventListener("click", () => auth0Client.loginWithRedirect({ authorizationParams: { screen_hint: "signup" } }));
-    if (forgotBtn) forgotBtn.addEventListener("click", () => {
+    document.getElementById("signupBtn").addEventListener("click", () =>
+      auth0Client.loginWithRedirect({ authorizationParams: { screen_hint: "signup" } })
+    );
+
+    document.getElementById("forgotBtn").addEventListener("click", () => {
       window.location.href = "https://dev-apceo158kyfjo3o2.us.auth0.com/u/reset-password/?client_id=TufYcYZM7RCllnkHxS5GAgzOpB8gmRhI";
     });
 
-    // Logout (delegate)
     document.body.addEventListener("click", async (e) => {
       if (e.target && e.target.id === "logoutLink") {
         e.preventDefault();
@@ -570,6 +556,19 @@
       }
     });
   });
+
+  function updateUI(user) {
+    const menuLogin = document.getElementById("menuLogin");
+    const heroText = document.getElementById("heroText");
+
+    if (menuLogin) {
+      menuLogin.outerHTML = `Welcome, ${user.name || user.nickname || user.email} | <a href="#" id="logoutLink">Logout</a>`;
+    }
+
+    if (heroText) {
+      heroText.textContent = `Welcome back, ${user.name || user.nickname || user.email}!`;
+    }
+  }
 </script>
 
 </body>
