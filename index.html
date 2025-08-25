@@ -240,49 +240,6 @@
   #feed .title:hover { text-decoration: underline; }
   #feed .pubDate { font-size: 0.9em; color: gray; margin-top: 5px; }
 
-  /* Auth0 Modal Styles */
-  .auth-modal {
-    display: none;
-    position: fixed;
-    z-index: 1001;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    overflow: auto;
-    background: rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  .auth-modal-content {
-    background: #4ade80;
-    margin: 10% auto;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 350px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    animation: slideUp 0.3s ease;
-  }
-  .auth-modal-content h2 { color: white; margin-bottom: 20px; }
-  .auth-modal-content button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    margin: 8px 0;
-    font-weight: bold;
-    cursor: pointer;
-    background: #fff;
-    transition: background 0.3s ease;
-  }
-.auth-modal-content button {
-  background: #16a34a; /* green background */
-  color: #fff;         /* white text */
-  border: none;        /* optional: remove default border */
-  padding: 10px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-  .auth-modal-content button:hover { background: #16a34a; color: #fff; }
   @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
   @keyframes slideUp { from {transform: translateY(20px);} to {transform: translateY(0);} }
 </style>
@@ -293,7 +250,7 @@
   <h1>Flexi Tutors</h1>
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
   <nav id="mainNav" role="navigation" aria-label="Main">
-    <a href="#" id="menuLogin" onclick="openAuthModal();return false;">Login or signup</a>
+    <a href="Amacoz.html" id="menuLogin">Login</a>
     <a href="#about">About Us</a>
     <a href="#services">Services</a>
     <a href="#cbt">CBT Simulator</a>
@@ -303,15 +260,23 @@
   </nav>
 </header>
 
+<!-- Welcome Message -->
+<div id="welcome" style="text-align:center; font-size:1.5rem; font-weight:bold; margin-top:20px;"></div>
+<button id="loginBtn" onclick="window.location.href='Amacoz.html'">Login</button>
+<button id="logoutBtn" style="display:none;">Logout</button>
+<!-- Hero, Services, FAQ, Contact, etc. remain the same -->
+
 <section class="hero" id="about">
   <h1 id="heroText">Welcome to Flexi Tutors</h1>
   <p>Your trusted partner for exam tips and academic success!</p>
-  <div class="section">
-    <form onsubmit="event.preventDefault(); alert('PIN loader is a placeholder.');">
-      <input type="text" placeholder="Enter PIN" aria-label="Enter PIN">
-      <button type="submit">Load PIN</button>
-    </form>
-  </div>
+
+  <div style="text-align: center; margin-top: 50px;">
+     <h2>Enter Subject PIN to get answers</h2>
+     <input type="text" id="pinInput" placeholder="e.g., 689" />
+     <br><br>
+     <button onclick="checkPin()">Access</button>
+     <div id="error" style="color: red; margin-top: 10px;"></div>
+   </div>
 </section>
 
 <section class="services" id="services">
@@ -435,17 +400,16 @@
 
 <div class="ai-bot" onclick="window.open('https://wisdomuko2008.github.io/JAMBassist-', '_blank')">💬</div>
 
-<!-- Auth0 Login/Signup Modal (moved OUT of <script>) -->
+<!-- Firebase Login/Signup Modal -->
 <div id="authModal" class="auth-modal">
   <div class="auth-modal-content">
     <h2>Login or Signup</h2>
-    <button id="loginBtn">Login</button>
-    <button id="signupBtn">Signup</button>
-    <button id="forgotBtn">Forgot Password?</button>
+    <button id="modalLoginBtn">Login</button>
+    <button id="modalSignupBtn">Signup</button>
+    <button id="modalForgotBtn">Forgot Password?</button>
     <button onclick="closeAuthModal()">Close</button>
   </div>
 </div>
-<!-- Scripts -->
 <script>
   // Mobile menu
   function toggleMenu() {
@@ -455,11 +419,7 @@
   }
   window.addEventListener('resize', () => {
     const menu = document.getElementById('mainNav');
-    if (window.innerWidth > 768) {
-      menu.style.display = 'flex';
-    } else {
-      menu.style.display = 'none';
-    }
+    menu.style.display = window.innerWidth > 768 ? 'flex' : 'none';
   });
 
   // FAQ toggles
@@ -467,8 +427,8 @@
     h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
   });
 
-  // Education Updates (RSS -> JSON proxy)
-  const feedUrl ="https://api.rss2json.com/v1/api.json?rss_url=https://rss.app/feeds/EbQFInAV6zTvXvgD.xml";
+  // Education Updates
+  const feedUrl = "https://api.rss2json.com/v1/api.json?rss_url=https://rss.app/feeds/EbQFInAV6zTvXvgD.xml";
   function loadEducationUpdates() {
     fetch(feedUrl)
       .then(r => r.json())
@@ -479,7 +439,7 @@
           feedContainer.innerText = "No updates available right now.";
           return;
         }
-        data.items.slice(0, 5).forEach(item => {
+        data.items.slice(0,5).forEach(item => {
           const itemDiv = document.createElement("div");
           itemDiv.className = "item";
           itemDiv.innerHTML = `
@@ -496,80 +456,89 @@
   loadEducationUpdates();
   setInterval(loadEducationUpdates, 300000);
 
-  // Auth modal helpers
-  const authModal = document.getElementById("authModal");
-  function openAuthModal(){ authModal.style.display = "block"; }
-  function closeAuthModal(){ authModal.style.display = "none"; }
-</script>
 
-<!-- Auth0 SDK -->
-<script src="https://cdn.auth0.com/js/auth0-spa-js/2.5/auth0-spa-js.production.js"></script>
-<script>
-  let auth0Client = null;
-
-  async function configureClient() {
-    auth0Client = await createAuth0Client({
-      domain: "dev-apceo158kyfjo3o2.us.auth0.com",
-      client_id: "TufYcYZM7RCllnkHxS5GAgzOpB8gmRhI",
-      cacheLocation: "localstorage",
-      useRefreshTokens: true
-    });
-  }
-
-  window.addEventListener("load", async () => {
-    await configureClient();
-
-    // Handle Auth0 redirect callback
-    if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
-      try {
-        await auth0Client.handleRedirectCallback();
-      } catch (err) {
-        console.error("Auth0 redirect error:", err);
-      }
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-    // Check session
-    const isAuthenticated = await auth0Client.isAuthenticated();
-    if (isAuthenticated) {
-      const user = await auth0Client.getUser();
-      updateUI(user);
-    }
-
-    // Button handlers
-    document.getElementById("loginBtn").addEventListener("click", () =>
-      auth0Client.loginWithRedirect()
-    );
-
-    document.getElementById("signupBtn").addEventListener("click", () =>
-      auth0Client.loginWithRedirect({ authorizationParams: { screen_hint: "signup" } })
-    );
-
-    document.getElementById("forgotBtn").addEventListener("click", () => {
-      window.location.href = "https://dev-apceo158kyfjo3o2.us.auth0.com/u/reset-password/?client_id=TufYcYZM7RCllnkHxS5GAgzOpB8gmRhI";
-    });
-
-    document.body.addEventListener("click", async (e) => {
-      if (e.target && e.target.id === "logoutLink") {
-        e.preventDefault();
-        await auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
-      }
-    });
-  });
-
-  function updateUI(user) {
-    const menuLogin = document.getElementById("menuLogin");
-    const heroText = document.getElementById("heroText");
-
-    if (menuLogin) {
-      menuLogin.outerHTML = `Welcome, ${user.name || user.nickname || user.email} | <a href="#" id="logoutLink">Logout</a>`;
-    }
-
-    if (heroText) {
-      heroText.textContent = `Welcome back, ${user.name || user.nickname || user.email}!`;
+  // Subject PIN check
+  const pinLinks = {
+    "095": "https://example.com/english",
+    "196": "https://example.com/mathematics",
+    "546": "https://example.com/economics",
+    "936": "https://example.com/geography",
+    "362": "https://example.com/biology",
+    "928": "https://example.com/agricultural-science",
+    "529": "https://example.com/civic-education",
+    "839": "https://example.com/commerce",
+    "829": "https://example.com/financial-accounting",
+    "897": "https://example.com/chemistry",
+    "734": "https://example.com/crs",
+    "989": "https://example.com/igbo",
+    "629": "https://example.com/physics",
+    "973": "https://example.com/yoruba",
+    "739": "https://example.com/animal-husbandry",
+    "852": "https://example.com/construction",
+    "596": "https://example.com/computer-engineering",
+    "749": "https://example.com/electronic-data-processing",
+    "894": "https://example.com/food-and-nutrition",
+    "473": "https://example.com/government",
+    "668": "https://example.com/applied-electricity",
+    "707": "https://example.com/auto-electrical-work",
+    "404": "https://example.com/business-management",
+    "323": "https://example.com/business-management"
+  };
+  function checkPin() {
+    const pin = document.getElementById("pinInput").value.trim();
+    const errorDiv = document.getElementById("error");
+    if (pinLinks[pin]) {
+      window.location.href = pinLinks[pin];
+    } else {
+      errorDiv.textContent = "Incorrect PIN. Please try again.";
     }
   }
-</script>
+  </script>
+  ...
+  <!-- other scripts you already have -->
 
+  <!-- Firebase Auth Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCaVTwzI_0h0RVdh_ASDDqdsvrg_3oHPSs",
+      authDomain: "flexi-702a9.firebaseapp.com",
+      projectId: "flexi-702a9",
+      storageBucket: "flexi-702a.appspot.com",
+      messagingSenderId: "647814322831",
+      appId: "1:647814322831:web:74fc00cfc62abdc7e76efa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Check login state
+    onAuthStateChanged(auth, (user) => {
+      const welcome = document.getElementById("welcome");
+      const loginLink = document.getElementById("menuLogin");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      if (user) {
+        let username = user.email.split("@")[0];
+        username = username.replace(/[_\.]/g, " ");
+        username = username.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
+        welcome.innerText = `Welcome, ${username}`;
+        loginLink.style.display = "none";
+        logoutBtn.style.display = "inline-block";
+      } else {
+        welcome.innerText = "";
+        loginLink.style.display = "inline-block";
+        logoutBtn.style.display = "none";
+      }
+    });
+
+    // Logout handler
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "Amacoz.html";
+    });
+</script>
 </body>
 </html>
