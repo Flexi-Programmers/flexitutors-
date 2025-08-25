@@ -169,90 +169,106 @@ header img {
   </script>
 
   <!-- Firebase script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    sendPasswordResetEmail, 
+    updateProfile 
+  } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCaVTwzI_0h0RVdh_ASDDqdsvrg_3oHPSs",
-      authDomain: "flexi-702a9.firebaseapp.com",
-      projectId: "flexi-702a9",
-      storageBucket: "flexi-702a.appspot.com",
-      messagingSenderId: "647814322831",
-      appId: "1:647814322831:web:74fc00cfc62abdc7e76efa",
-      measurementId: "G-7BC49SZJ6V"
-    };
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyCaVTwzI_0h0RVdh_ASDDqdsvrg_3oHPSs",
+    authDomain: "flexi-702a9.firebaseapp.com",
+    projectId: "flexi-702a9",
+    storageBucket: "flexi-702a.appspot.com",
+    messagingSenderId: "647814322831",
+    appId: "1:647814322831:web:74fc00cfc62abdc7e76efa",
+    measurementId: "G-7BC49SZJ6V"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    function showMessage(message, type) {
-      const msgBox = document.getElementById("message-box");
-      msgBox.textContent = message;
-      msgBox.className = type === "error" ? "error" : "success";
-      msgBox.style.display = "block";
-      msgBox.classList.remove("fade-out");
+  // Show message function
+  function showMessage(message, type) {
+    const msgBox = document.getElementById("message-box");
+    msgBox.textContent = message;
+    msgBox.className = type === "error" ? "error" : "success";
+    msgBox.style.display = "block";
+    msgBox.classList.remove("fade-out");
 
+    setTimeout(() => msgBox.classList.add("fade-out"), 3000);
+    setTimeout(() => (msgBox.style.display = "none"), 3500);
+  }
+
+  // Friendly error function
+  function friendlyError(error) {
+    if (error.code === "auth/network-request-failed") return "No network connection. Please try again later.";
+    if (error.code === "auth/user-not-found") return "No account found with that email.";
+    if (error.code === "auth/wrong-password") return "Incorrect password.";
+    if (error.code === "auth/email-already-in-use") return "This email is already registered.";
+    if (error.code === "auth/invalid-email") return "Invalid email format.";
+    if (error.code === "auth/weak-password") return "Password should be at least 6 characters.";
+    if (error.code === "auth/invalid-credential") return "Invalid Credentials.";
+    return error.message;
+  }
+
+  // Login
+  document.getElementById("loginBtn").addEventListener("click", async () => {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      showMessage("Login successful!", "success");
       setTimeout(() => {
-        msgBox.classList.add("fade-out");
-      }, 3000); 
+        window.location.href = "home.html";
+      }, 1500);
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
+    }
+  });
 
+  // Signup (with first + last name)
+  document.getElementById("signupBtn").addEventListener("click", async () => {
+    const firstName = document.getElementById("signup-firstname").value;
+    const lastName = document.getElementById("signup-lastname").value;
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+      // ✅ Save displayName
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`
+      });
+
+      showMessage("Account created successfully!", "success");
       setTimeout(() => {
-        msgBox.style.display = "none";
-      }, 3500);
+        window.location.href = "home.html";
+      }, 1500);
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
     }
+  });
 
-    function friendlyError(error) {
-      if (error.code === "auth/network-request-failed") return "No network connection. Please try again later.";
-      if (error.code === "auth/user-not-found") return "No account found with that email.";
-      if (error.code === "auth/wrong-password") return "Incorrect password.";
-      if (error.code === "auth/email-already-in-use") return "This email is already registered.";
-      if (error.code === "auth/invalid-email") return "Invalid email format.";
-      if (error.code === "auth/weak-password") return "Password should be at least 6 characters.";
-      if (error.code === "auth/invalid-credential") return "Invalid Credentials.";
-      return error.message;
+  // Reset password
+  document.getElementById("resetBtn").addEventListener("click", async () => {
+    const email = document.getElementById("reset-email").value;
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showMessage("Password reset email sent!", "success");
+      setTimeout(() => {
+        showCard("login-card");
+      }, 2000);
+    } catch (error) {
+      showMessage(friendlyError(error), "error");
     }
-
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        showMessage("Login successful!", "success");
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 1500);
-      } catch (error) {
-        showMessage(friendlyError(error), "error");
-      }
-    });
-
-    document.getElementById("signupBtn").addEventListener("click", async () => {
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        showMessage("Account created successfully!", "success");
-        setTimeout(() => {
-          window.location.href = "home.html";
-        }, 1500);
-      } catch (error) {
-        showMessage(friendlyError(error), "error");
-      }
-    });
-
-    document.getElementById("resetBtn").addEventListener("click", async () => {
-      const email = document.getElementById("reset-email").value;
-      try {
-        await sendPasswordResetEmail(auth, email);
-        showMessage("Password reset email sent!", "success");
-        setTimeout(() => {
-          showCard('login-card');
-        }, 2000);
-      } catch (error) {
-        showMessage(friendlyError(error), "error");
-      }
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
