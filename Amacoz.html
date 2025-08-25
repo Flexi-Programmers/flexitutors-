@@ -5,6 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Auth Page</title>
   <style>
+  header {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+}
+
+header h1 {
+  margin: 10px 0 0;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: white;
+}
+
+header img {
+  display: block;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: white;
+  padding: 2px;
+  height: 120px;
+  width: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -96,6 +123,12 @@
 </head>
 <body>
   
+<header>
+ <img src="https://i.imgur.com/uXUwmkC.png" alt="Logo"
+    style="height: 130px; width: 130px; border-radius: 50%; background: white; padding: 2px; vertical-align: middle; margin-right: 8px;">
+  <h1>Flexi Tutors</h1>
+ </header>
+ 
   <div id="message-box"></div>
 
   <!-- LOGIN -->
@@ -111,6 +144,8 @@
   <!-- SIGNUP -->
   <div class="card" id="signup-card">
     <h2>Sign Up</h2>
+    <input type="text" id="signup-Firstname" placeholder="First Name" required />
+    <input type="text" id="signup-Lastname" placeholder="Last Name" required />
     <input type="email" id="signup-email" placeholder="Email" required />
     <input type="password" id="signup-password" placeholder="Password" required />
     <button id="signupBtn">Sign Up</button>

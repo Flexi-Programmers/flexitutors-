@@ -181,14 +181,26 @@
   }
   button:hover { background-color: var(--green-dark); }
 
-  /* Footer */
-  footer {
-    background: var(--green);
-    color: white;
-    text-align: center;
-    padding: 15px 0;
-    margin-top: 40px;
-  }
+  body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* pushes footer down */
+}
+
+footer {
+  background: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
 
   /* Floating buttons */
   .whatsapp-float {
@@ -247,6 +259,8 @@
 <body>
 
 <header>
+ <img src="https://i.imgur.com/uXUwmkC.png" alt="Logo"
+    style="height: 150px; width: 150px; border-radius: 50%; background: white; padding: 2px; vertical-align: middle; margin-right: 8px;">
   <h1>Flexi Tutors</h1>
   <div class="menu-icon" onclick="toggleMenu()">☰</div>
   <nav id="mainNav" role="navigation" aria-label="Main">
@@ -259,7 +273,7 @@
     <a href="#download-App">Download App</a>
   </nav>
 </header>
-
+<main>
 <!-- Welcome Message -->
 <div id="welcome" style="text-align:center; font-size:1.5rem; font-weight:bold; margin-top:20px;"></div>
 <button id="loginBtn" onclick="window.location.href='Amacoz.html'">Login</button>
@@ -385,11 +399,12 @@
     <button type="submit">Send Message</button>
   </form>
 </section>
-
+</main>
 <footer>
   <p>Contact us: WhatsApp: 0705 176 8946 | Telegram: @flexitutors</p>
   <p>&copy; 2025 Flexi Tutors. All rights reserved.</p>
 </footer>
+</body>
 
 <a class="whatsapp-float"
    href="https://wa.me/2349034159839?text=Hi%20I%E2%80%99m%20interested%20in%20exams%20Tips%20and%20preparation.%20Can%20you%20assist%20me?"
@@ -400,16 +415,7 @@
 
 <div class="ai-bot" onclick="window.open('https://wisdomuko2008.github.io/JAMBassist-', '_blank')">💬</div>
 
-<!-- Firebase Login/Signup Modal -->
-<div id="authModal" class="auth-modal">
-  <div class="auth-modal-content">
-    <h2>Login or Signup</h2>
-    <button id="modalLoginBtn">Login</button>
-    <button id="modalSignupBtn">Signup</button>
-    <button id="modalForgotBtn">Forgot Password?</button>
-    <button onclick="closeAuthModal()">Close</button>
-  </div>
-</div>
+
 <script>
   // Mobile menu
   function toggleMenu() {
@@ -497,48 +503,48 @@
   ...
   <!-- other scripts you already have -->
 
-  <!-- Firebase Auth Script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCaVTwzI_0h0RVdh_ASDDqdsvrg_3oHPSs",
-      authDomain: "flexi-702a9.firebaseapp.com",
-      projectId: "flexi-702a9",
-      storageBucket: "flexi-702a.appspot.com",
-      messagingSenderId: "647814322831",
-      appId: "1:647814322831:web:74fc00cfc62abdc7e76efa"
-    };
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyCaVTwzI_0h0RVdh_ASDDqdsvrg_3oHPSs",
+    authDomain: "flexi-702a9.firebaseapp.com",
+    projectId: "flexi-702a9",
+    storageBucket: "flexi-702a.appspot.com",
+    messagingSenderId: "647814322831",
+    appId: "1:647814322831:web:74fc00cfc62abdc7e76efa"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    // Check login state
-    onAuthStateChanged(auth, (user) => {
-      const welcome = document.getElementById("welcome");
-      const loginLink = document.getElementById("menuLogin");
-      const logoutBtn = document.getElementById("logoutBtn");
+  // Protect page + set welcome name
+  onAuthStateChanged(auth, (user) => {
+    const welcome = document.getElementById("welcome");
+    const loginLink = document.getElementById("menuLogin");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-      if (user) {
-        let username = user.email.split("@")[0];
-        username = username.replace(/[_\.]/g, " ");
-        username = username.split(" ").map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
-        welcome.innerText = `Welcome, ${username}`;
-        loginLink.style.display = "none";
-        logoutBtn.style.display = "inline-block";
-      } else {
-        welcome.innerText = "";
-        loginLink.style.display = "inline-block";
-        logoutBtn.style.display = "none";
-      }
-    });
+    if (user) {
+      // Always use first + last name from displayName
+      let username = user.displayName || "User";
 
-    // Logout handler
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      await signOut(auth);
-      window.location.href = "Amacoz.html";
-    });
+      welcome.innerText = `Welcome, ${username}`;
+      if (loginLink) loginLink.style.display = "none";
+      if (logoutBtn) logoutBtn.style.display = "inline-block";
+
+    } else {
+      // Not logged in → redirect to login page
+      window.location.href = "login.html";
+    }
+  });
+
+  // Logout handler
+  document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "Amacoz.html"; // change to your homepage if needed
+  });
 </script>
 </body>
 </html>
