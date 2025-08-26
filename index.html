@@ -5,33 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Auth Page</title>
   <style>
-  header {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: white;
-}
-
-header h1 {
-  margin: 10px 0 0;
-  font-size: 1.8em;
-  font-weight: bold;
-  color: white;
-}
-
-header img {
-  display: block;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: white;
-  padding: 2px;
-  height: 120px;
-  width: 120px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
+    /* ✅ Your CSS left unchanged */
+    header {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: white;
+    }
+    header h1 {
+      margin: 10px 0 0;
+      font-size: 1.8em;
+      font-weight: bold;
+      color: white;
+    }
+    header img {
+      display: block;
+      margin: 0 auto;
+      border-radius: 50%;
+      background: white;
+      padding: 2px;
+      height: 120px;
+      width: 120px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -85,8 +83,6 @@ header img {
       display: block;
       margin-top: 10px;
     }
-
-    /* Message Box */
     #message-box {
       position: absolute;
       top: 20px;
@@ -104,82 +100,99 @@ header img {
       transition: opacity 0.5s ease;
       display: none;
     }
-    #message-box.error {
-      background-color: #ff4d4d;
-      color: white;
-    }
-    #message-box.success {
-      background-color: #4CAF50;
-      color: white;
-    }
-    .fade-out {
-      opacity: 0;
-    }
+    #message-box.error { background-color: #ff4d4d; color: white; }
+    #message-box.success { background-color: #4CAF50; color: white; }
+    .fade-out { opacity: 0; }
     @keyframes slideDown {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    .eye-btn {
+      position: absolute;
+      right: 8px;
+      top: 10px;
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
   
 <header>
- <img src="https://i.imgur.com/uXUwmkC.png" alt="Logo"
-    style="height: 130px; width: 130px; border-radius: 50%; background: white; padding: 2px; vertical-align: middle; margin-right: 8px;">
+  <img src="https://i.imgur.com/uXUwmkC.png" alt="Logo"
+    style="height: 130px; width: 130px; border-radius: 50%; background: white; padding: 2px;">
   <h1>Flexi Tutors</h1>
- </header>
+</header>
  
-  <div id="message-box"></div>
+<div id="message-box"></div>
 
-  <!-- LOGIN -->
-  <div class="card active" id="login-card">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="Email" required />
+<!-- LOGIN -->
+<div class="card active" id="login-card">
+  <h2>Login</h2>
+  <input type="email" id="login-email" placeholder="Email" required />
+  <div style="position: relative;">
     <input type="password" id="login-password" placeholder="Password" required />
-    <button id="loginBtn">Login</button>
-    <a onclick="showCard('signup-card')">Create Account</a>
-    <a onclick="showCard('reset-card')">Forgot Password?</a>
+    <svg class="eye-btn" data-target="login-password" xmlns="http://www.w3.org/2000/svg" fill="none"
+      viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 
+        2.943 9.542 7-1.274 4.057-5.065 
+        7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
   </div>
+  <button id="loginBtn">Login</button>
+  <a onclick="showCard('signup-card')">Create Account</a>
+  <a onclick="showCard('reset-card')">Forgot Password?</a>
+</div>
 
-  <!-- SIGNUP -->
-  <div class="card" id="signup-card">
-    <h2>Sign Up</h2>
-    <input type="text" id="signup-Firstname" placeholder="First Name" required />
-    <input type="text" id="signup-Lastname" placeholder="Last Name" required />
-    <input type="email" id="signup-email" placeholder="Email" required />
+<!-- SIGNUP -->
+<div class="card" id="signup-card">
+  <h2>Sign Up</h2>
+  <input type="text" id="signup-Firstname" placeholder="First Name" required />
+  <input type="text" id="signup-Lastname" placeholder="Last Name" required />
+  <input type="email" id="signup-email" placeholder="Email" required />
+  <div style="position: relative;">
     <input type="password" id="signup-password" placeholder="Password" required />
-    <button id="signupBtn">Sign Up</button>
-    <a onclick="showCard('login-card')">Already have an account? Login</a>
+    <svg class="eye-btn" data-target="signup-password" xmlns="http://www.w3.org/2000/svg" fill="none"
+      viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 
+        2.943 9.542 7-1.274 4.057-5.065 
+        7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    </svg>
   </div>
+  <button id="signupBtn">Sign Up</button>
+  <a onclick="showCard('login-card')">Already have an account? Login</a>
+</div>
 
-  <!-- RESET PASSWORD -->
-  <div class="card" id="reset-card">
-    <h2>Reset Password</h2>
-    <input type="email" id="reset-email" placeholder="Enter your email" required />
-    <button id="resetBtn">Send Reset Email</button>
-    <a onclick="showCard('login-card')">Back to Login</a>
-  </div>
+<!-- RESET PASSWORD -->
+<div class="card" id="reset-card">
+  <h2>Reset Password</h2>
+  <input type="email" id="reset-email" placeholder="Enter your email" required />
+  <button id="resetBtn">Send Reset Email</button>
+  <a onclick="showCard('login-card')">Back to Login</a>
+</div>
 
-  <!-- Page switching script -->
-  <script>
-    function showCard(cardId) {
-      document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-      document.getElementById(cardId).classList.add('active');
-    }
-  </script>
+<!-- Page switching script -->
+<script>
+  function showCard(cardId) {
+    document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+    document.getElementById(cardId).classList.add('active');
+  }
+</script>
 
-  <!-- Firebase script -->
- <script type="module">
+<!-- Firebase script -->
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-  import { 
-    getAuth, 
-    signInWithEmailAndPassword, 
-    createUserWithEmailAndPassword, 
-    sendPasswordResetEmail, 
-    updateProfile 
-  } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, updateProfile } 
+    from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
 
-  // Firebase config
   const firebaseConfig = {
     apiKey: "AIzaSyCaVTwzI_0h0RVdh_ASDDqdsvrg_3oHPSs",
     authDomain: "flexi-702a9.firebaseapp.com",
@@ -193,19 +206,16 @@ header img {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Show message function
   function showMessage(message, type) {
     const msgBox = document.getElementById("message-box");
     msgBox.textContent = message;
     msgBox.className = type === "error" ? "error" : "success";
     msgBox.style.display = "block";
     msgBox.classList.remove("fade-out");
-
     setTimeout(() => msgBox.classList.add("fade-out"), 3000);
     setTimeout(() => (msgBox.style.display = "none"), 3500);
   }
 
-  // Friendly error function
   function friendlyError(error) {
     if (error.code === "auth/network-request-failed") return "No network connection. Please try again later.";
     if (error.code === "auth/user-not-found") return "No account found with that email.";
@@ -224,33 +234,31 @@ header img {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       showMessage("Login successful!", "success");
-      setTimeout(() => {
-        window.location.href = "home.html";
-      }, 1500);
+      setTimeout(() => { window.location.href = "home.html"; }, 1500);
     } catch (error) {
       showMessage(friendlyError(error), "error");
     }
   });
 
-  // Signup (with first + last name)
-  document.getElementById("signupBtn").addEventListener("click", async () => {
+  // Signup with validation
+  document.getElementById("signupBtn").addEventListener("click", async (event) => {
     const firstName = document.getElementById("signup-Firstname").value;
     const lastName = document.getElementById("signup-Lastname").value;
     const email = document.getElementById("signup-email").value;
     const password = document.getElementById("signup-password").value;
 
+    const errorMsg = validatePassword(password);
+    if (errorMsg) {
+      event.preventDefault();
+      showMessage(errorMsg, "error");
+      return;
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      // ✅ Save displayName
-      await updateProfile(userCredential.user, {
-        displayName: `${firstName} ${lastName}`
-      });
-
+      await updateProfile(userCredential.user, { displayName: `${firstName} ${lastName}` });
       showMessage("Account created successfully!", "success");
-      setTimeout(() => {
-        window.location.href = "home.html";
-      }, 1500);
+      setTimeout(() => { window.location.href = "home.html"; }, 1500);
     } catch (error) {
       showMessage(friendlyError(error), "error");
     }
@@ -262,13 +270,86 @@ header img {
     try {
       await sendPasswordResetEmail(auth, email);
       showMessage("Password reset email sent!", "success");
-      setTimeout(() => {
-        showCard("login-card");
-      }, 2000);
+      setTimeout(() => { showCard("login-card"); }, 2000);
     } catch (error) {
       showMessage(friendlyError(error), "error");
     }
   });
+
+  // ✅ Password validation
+  function validatePassword(password) {
+    const minLength = 8;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    if (password.length < minLength) return "Password must be at least 8 characters.";
+    if (!hasUpper) return "Password must contain at least one uppercase letter.";
+    if (!hasLower) return "Password must contain at least one lowercase letter.";
+    if (!hasNumber) return "Password must contain at least one number.";
+    return null;
+  }
+
+  // ✅ Toggle password visibility with SVG
+  document.querySelectorAll(".eye-btn").forEach(icon => {
+    icon.addEventListener("click", function () {
+      const input = document.getElementById(this.dataset.target);
+      if (input.type === "password") {
+        input.type = "text";
+        this.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 
+            0-8.269-2.943-9.543-7a10.05 10.05 0 011.383-2.813m2.83-2.829A9.953 
+            9.953 0 0112 5c4.478 0 8.269 2.943 9.543 
+            7a9.96 9.96 0 01-4.132 5.411m-2.83-2.829A3 
+            3 0 1112 9c.83 0 1.58.336 
+            2.121.879M15 12a3 3 0 01-3 3" />`;
+      } else {
+        input.type = "password";
+        this.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 
+            5c4.477 0 8.268 2.943 9.542 
+            7-1.274 4.057-5.065 
+            7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+      }
+    });
+  });
+  // ✅ Password strength indicator
+  function setupStrengthChecker(inputId) {
+    const input = document.getElementById(inputId);
+    const strengthText = document.createElement("small");
+    strengthText.style.display = "block";
+    strengthText.style.marginTop = "5px";
+    strengthText.style.fontWeight = "bold";
+    input.parentNode.appendChild(strengthText);
+
+    input.addEventListener("input", () => {
+      const val = input.value;
+      let strength = "Weak";
+      let color = "red";
+
+      if (val.length >= 8 && /[A-Z]/.test(val) && /\d/.test(val) && /[^A-Za-z0-9]/.test(val)) {
+        strength = "Strong";
+        color = "green";
+      } else if (val.length >= 6 && (/[A-Z]/.test(val) || /\d/.test(val))) {
+        strength = "Medium";
+        color = "orange";
+      }
+
+      if (val.length === 0) {
+        strengthText.textContent = "";
+      } else {
+        strengthText.textContent = `Password Strength: ${strength}`;
+        strengthText.style.color = color;
+      }
+    });
+  }
+
+  // Apply checker to signup password only (not login)
+  setupStrengthChecker("signup-password");
 </script>
 </body>
 </html>
